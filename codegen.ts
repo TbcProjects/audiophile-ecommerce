@@ -6,7 +6,7 @@ const config: CodegenConfig = {
     {
       "https://graphql.datocms.com": {
         headers: {
-          Authorization: `Bearer 57e9b3d9ca616cc6f5806ba6971a36`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN}`,
         },
       },
     },
