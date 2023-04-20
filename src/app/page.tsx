@@ -1,32 +1,22 @@
-"use client";
-import client from "@/lib/commerce";
+import { fetchCommerce, fetchContent } from "@/lib/fetchers";
 
-import { use } from "react";
+import CategoryList from "@/components/home/CategoryList";
+import Heading from "@/components/shared/Heading";
+import HomePageContainer from "@/components/home/HomePageContainer";
 
-import { Container } from "@chakra-ui/react";
+export default async function HomePage() {
+  const categories = await fetchCommerce();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const content = (await fetchContent()) as any;
 
-const fetchCommerce = async () => {
-  const data = await client.categories.list();
-  return data;
-};
-
-export default function HomePage() {
-  const categories = use(fetchCommerce());
-
-  const categoryList = categories.data.map((category) => {
-    return (
-      <div key={category.id}>
-        <p>{category.name}</p>
-      </div>
-    );
-  });
+  const heading = content.allPages[0].heading[0].heading;
 
   return (
     <main>
-      <Container>
-        <h1>Audiophile Storefront</h1>
-        {categoryList}
-      </Container>
+      <HomePageContainer>
+        <Heading heading={heading} />
+        <CategoryList categories={categories} />
+      </HomePageContainer>
     </main>
   );
 }
