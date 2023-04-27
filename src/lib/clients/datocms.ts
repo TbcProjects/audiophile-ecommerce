@@ -1,21 +1,13 @@
-import { GraphQLClient } from "graphql-request";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
-import { getSdk } from "@/types/Dato/datoTypes";
+const datoHttpLink = createHttpLink({
+  uri: "https://graphql.datocms.com",
+  headers: {
+    authorization: `Bearers ${process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN}`,
+  },
+});
 
-export const configureSdk = (preview = false) => {
-  const headers: Record<string, string> = {
-    authorization: `Bearer ${process.env.NEXT_DATOCMS_API_TOKEN}`,
-  };
-
-  if (preview) {
-    headers["X-Include-Drafts"] = "true";
-  }
-
-  const endpoint = preview
-    ? "https://graphql.datocms.com/preview"
-    : "https://graphql.datocms.com";
-
-  const client = new GraphQLClient(endpoint, { headers });
-
-  return getSdk(client);
-};
+export const client = new ApolloClient({
+  link: datoHttpLink,
+  cache: new InMemoryCache(),
+});
