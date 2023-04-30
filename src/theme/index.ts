@@ -9,6 +9,8 @@ import layerStyles from "./foundations/layerStyles";
 import sizes from "./foundations/sizes";
 import textStyles from "./foundations/textStyles";
 
+import Container from "./components/container";
+
 const overrides = {
   config,
   styles,
@@ -19,7 +21,9 @@ const overrides = {
   layerStyles,
   sizes,
   textStyles,
-  components: {},
+  components: {
+    Container,
+  },
 };
 
 const theme = extendTheme(overrides);
